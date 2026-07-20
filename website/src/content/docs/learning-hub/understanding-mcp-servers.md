@@ -3,7 +3,7 @@ title: 'Understanding MCP Servers'
 description: 'Learn how Model Context Protocol servers extend GitHub Copilot with access to external tools, databases, and APIs.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-20
 estimatedReadingTime: '8 minutes'
 tags:
   - mcp
@@ -316,6 +316,15 @@ For example, a PostgreSQL server that can't connect because `DATABASE_URL` is no
 You can also open the `/mcp` manager while the agent is working to toggle servers on or off mid-turn. Add, edit, delete, and re-auth actions wait until the turn finishes, but enabling or disabling a server takes effect immediately.
 
 **Toggling servers on and off** (v1.0.66+): From the `/mcp` list view, you can **enable or disable individual MCP servers** without editing your config file. Select a server in the list and toggle it — disabled servers won't start in future sessions and their tools won't be available to agents. This is useful for temporarily disabling a server that's causing slowdowns or errors without removing it from your configuration entirely.
+
+**Persisting GitHub MCP toolset configuration** (v1.0.71+): Your GitHub MCP tool and toolset preferences are now persisted via `settings.json`. The relevant settings keys are:
+
+| Setting | Description |
+|---------|-------------|
+| `githubMcpToolsets` | Which GitHub MCP toolsets are enabled (e.g., `["repos", "issues"]`) |
+| `githubMcpTools` | Fine-grained list of individual GitHub MCP tools to enable or disable |
+
+This means your choices survive CLI restarts and session switches — you no longer need to re-configure the GitHub MCP server every time you open a new session. You can edit these settings directly in `/settings` or in your `settings.json` file.
 
 **Common causes and fixes**:
 

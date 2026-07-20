@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-20
 estimatedReadingTime: '8 minutes'
 tags:
   - plugins
@@ -221,6 +221,31 @@ copilot plugin marketplace update
 # Remove a plugin
 copilot plugin uninstall my-plugin
 ```
+
+> **Targeting skills and MCP servers (v1.0.72+)**: The `enable`, `disable`, and `remove` verbs now accept `--plugin`, `--mcp`, and `--skill` flags (or a positional kind) to target specific component types within a plugin:
+> ```bash
+> copilot plugins remove --skill my-skill-name
+> copilot plugins enable --mcp my-mcp-server
+> copilot plugins disable --plugin my-plugin-name
+> ```
+> This lets you manage individual skills and MCP servers independently without affecting the rest of a plugin.
+
+### Installing Skills Directly (v1.0.72+)
+
+In addition to bundling skills inside plugins, you can install individual skills directly from a file, URL, or directory using the `--skill` flag:
+
+```bash
+# Install a skill from a local directory
+copilot plugins install --skill ./my-skill/
+
+# Install a skill from a URL
+copilot plugins install --skill https://example.com/my-skill.tar.gz
+
+# Install a skill into the current repository (project scope)
+copilot plugins install --skill ./my-skill/ --scope project
+```
+
+This is useful for sharing skills across projects without publishing a full plugin, or for quickly testing a skill you're developing locally.
 
 ### Loading Plugins from a Local Directory
 
