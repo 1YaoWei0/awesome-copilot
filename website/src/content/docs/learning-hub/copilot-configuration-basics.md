@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-22
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -232,6 +232,30 @@ In addition to model and effort settings, this file can also extend the URL, MCP
 **Why use this**: Pin a model when your team has agreed on the right cost/quality tradeoff for a project. Pin a high effort level for codebases where mistakes are expensive. Deny lists let you block specific MCP servers or URLs that aren't appropriate for a given project's security posture.
 
 > **Trust requirement**: The repository must be explicitly trusted by the user for these settings to take effect. This prevents untrusted repositories from changing your model or access restrictions without your knowledge.
+
+### Per-Session Model Override with `/model --session` (v1.0.71+)
+
+While `.github/copilot/settings.json` pins the model for all sessions in a repository, you may occasionally want to use a different model for just the **current session** without changing your saved settings. The `/model --session` flag (short form: `-s`) lets you do exactly that:
+
+```
+/model --session claude-sonnet-5
+```
+
+Or with effort and context tier:
+
+```
+/model --session gpt-4.1 --effort high --context full
+```
+
+This change applies only to the active session — when you start a new session or restart, your global or repository-pinned settings are restored. It is ideal for one-off experiments, cost-sensitive tasks, or trying a new model without committing to it.
+
+You can also set this from the CLI flag:
+
+```bash
+copilot --model gpt-4.1 --effort high
+```
+
+The `/model --session` command is distinct from changing the model in `/model` without the flag, which **does** persist to your saved settings.
 
 ### Custom Agents
 

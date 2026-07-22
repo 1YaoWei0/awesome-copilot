@@ -3,7 +3,7 @@ title: 'Agents and Subagents'
 description: 'Learn how delegated subagents differ from primary agents, when to use them, and how to launch them in VS Code and Copilot CLI.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-01
+lastUpdated: 2026-07-22
 estimatedReadingTime: '9 minutes'
 tags:
   - agents
@@ -211,6 +211,19 @@ No. They can run sequentially when one step depends on another, or in parallel w
 **Can I control how many subagents run simultaneously?**
 
 Yes. In v1.0.66+, usage-based billing users can configure **subagent concurrency and depth limits** directly from `/settings`. The concurrency limit controls how many subagents run in parallel; the depth limit controls how many levels deep delegation can chain (preventing runaway recursive subagent trees). These settings give you predictable control over resource consumption during complex orchestrated tasks.
+
+**Can I send follow-up messages to a running subagent?**
+
+Yes — since **v1.0.71**, multi-turn subagents are **always enabled**. You can send follow-up messages to a subagent that is still running, without needing any feature flag or experimental setting. This makes interactive steering of long-running subagents a first-class capability in Copilot CLI.
+
+**What is the difference between `/worktree` and `/move`?**
+
+As of **v1.0.71**, these are two separate commands with distinct behaviors:
+
+- **`/worktree <task>`** — creates a new git worktree and starts working there, **leaving your uncommitted changes behind** in the original directory. Use this when you want to start a clean parallel workstream.
+- **`/move <task>`** — creates a new git worktree and **carries your uncommitted changes into it**. Use this when you want to continue your current in-progress work in an isolated branch.
+
+Both commands then hand you off to the new worktree for the delegated task.
 
 ## Next steps
 

@@ -3,7 +3,7 @@ title: 'Working with Canvas Extensions'
 description: 'Create and iterate on GitHub Copilot app canvases using /create-canvas, then shape them into reusable project or personal extensions.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-06-17
+lastUpdated: 2026-07-22
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -132,6 +132,20 @@ Treat the first `/create-canvas` result as version one. Then refine in-place:
 - Keep capability names clear and action-oriented
 
 The fastest loop is: **use the canvas**, note friction, and ask the agent for a targeted update.
+
+## Canvas Support in Copilot CLI (v1.0.71+)
+
+Canvas extensions are not limited to the GitHub Copilot app — since **v1.0.71**, the Copilot CLI also supports canvas interactions for extension-driven workflows.
+
+When a skill or agent creates a canvas in the CLI, the canvas panel opens inline with your session. You can interact with the canvas controls, and the agent can call canvas actions just as it does in the app. This means extensions built against the Canvas SDK work across both the app and the CLI without modification.
+
+To use a canvas extension in the CLI:
+
+1. Install the plugin or extension that contains the canvas (e.g., `copilot plugin install backlog-triage@awesome-copilot`).
+2. Invoke the skill or agent from your session — the canvas opens automatically in the right panel.
+3. Interact with the canvas UI and let the agent update it through its callable capabilities.
+
+> **Note**: The CLI canvas experience mirrors the app but is rendered in the terminal. Some rich UI elements (drag-and-drop, hover states) may have a simplified representation in the terminal context.
 
 ## Next steps
 
