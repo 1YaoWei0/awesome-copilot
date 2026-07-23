@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-23
 estimatedReadingTime: '8 minutes'
 tags:
   - plugins
@@ -73,6 +73,8 @@ The `plugin.json` manifest declares what the plugin contains:
   ]
 }
 ```
+
+**Open Plugin Spec v1** *(v1.0.74+)*: GitHub Copilot CLI now also supports [Open Plugin Spec v1](https://agentskills.io/specification) plugin manifests. Open Plugin Spec is an emerging open standard for distributing agent skills and tools, enabling interoperability with other AI tools that speak the same format. Plugins authored to the Open Plugin Spec v1 format install and behave identically to Copilot-native plugins.
 
 ## Why Use Plugins?
 

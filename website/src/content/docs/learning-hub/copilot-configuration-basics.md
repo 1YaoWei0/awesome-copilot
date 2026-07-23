@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-23
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -466,6 +466,14 @@ The settings dialog supports search — type to filter settings by name. Changes
 /settings --local   # view/edit local (user-level) settings
 /model --repo       # view/edit the model pinned for this repository
 /model --local      # view/edit your personal model preference
+```
+
+**Plan-mode model** *(v1.0.74+)*: Use `/model plan` (or `/model --plan`) to set a dedicated model that is used only while in plan mode. Pass a model ID to select it, `off` to clear the override, or no argument to open the interactive picker. When you leave plan mode, the CLI automatically reverts to your session model — so you can use a faster or cheaper model for planning without permanently changing your session preference:
+
+```
+/model plan claude-haiku-4   # use Haiku only in plan mode
+/model plan                  # open the picker to choose a plan-mode model
+/model plan off              # remove the plan-mode model override
 ```
 
 These flags mirror the **Repo** and **Repo (local)** scope tabs available in the `/settings` dashboard (v1.0.71+), making it easier to manage per-repository vs. user-global configuration without ambiguity. In v1.0.71+, the `/settings` dashboard also shows **Repo** and **Repo (local)** tabs alongside the existing user-level view, giving you a unified place to see which settings are applied at each layer.
