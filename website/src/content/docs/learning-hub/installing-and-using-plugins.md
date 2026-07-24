@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-24
 estimatedReadingTime: '8 minutes'
 tags:
   - plugins
@@ -36,6 +36,8 @@ A plugin bundles one or more of the following components:
 | **Extensions** | IDE extensions installable via the plugin marketplace (v1.0.62+) | `extensions/` |
 
 A plugin might include all of these or just one — for example, a plugin could provide a single specialized agent, or an entire development toolkit with multiple agents, skills, hooks, and MCP server configurations working together.
+
+> **Open Plugin Spec v1 (v1.0.74+)**: Plugins can now also use the [Open Plugin Spec v1](https://openplugindefinition.com/) manifest format and standard `mcp.json` configuration files. This makes it easier to create plugins that work across multiple AI tools, not just GitHub Copilot CLI.
 
 ### Example: What a Plugin Looks Like
 
@@ -199,6 +201,23 @@ Or from an interactive session:
 ```
 
 > **Deprecation notice**: Installing plugins directly from a GitHub repository URL, raw URL, or local file path (e.g., `copilot plugin install github/awesome-copilot`) is deprecated and will be removed in a future release. Use marketplace-based installation instead.
+
+### Installing Individual Skills
+
+*(v1.0.72+)* You can install a single skill from a local file, directory, or URL — without wrapping it in a full plugin:
+
+```bash
+# Install a skill from a local directory (user-scope, default)
+copilot plugins install --skill ./path/to/my-skill
+
+# Install a skill into the current repository (project-scope)
+copilot plugins install --skill ./path/to/my-skill --scope project
+
+# Install a skill from a URL
+copilot plugins install --skill https://example.com/my-skill.md
+```
+
+Skills installed this way appear in the skill picker and are automatically invoked when relevant to your current task.
 
 ### From VS Code
 
