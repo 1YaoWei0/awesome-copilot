@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-25
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -223,7 +223,7 @@ The `~/.agents/skills/` path aligns with the VS Code GitHub Copilot for Azure ex
 
 | Field | Description | Example values |
 |-------|-------------|----------------|
-| `model` | The AI model to use for this repository | `"claude-sonnet-4"`, `"gpt-4.1"`, `"claude-sonnet-5"` |
+| `model` | The AI model to use for this repository | `"claude-sonnet-4"`, `"gpt-4.1"`, `"claude-sonnet-5"`, `"claude-opus-5"` |
 | `effortLevel` | Reasoning effort level | `"low"`, `"medium"`, `"high"` |
 | `contextTier` | How much context to include | `"default"`, `"full"` |
 
@@ -467,6 +467,16 @@ The settings dialog supports search — type to filter settings by name. Changes
 /model --repo       # view/edit the model pinned for this repository
 /model --local      # view/edit your personal model preference
 ```
+
+**Plan mode model** *(v1.0.74+)*: Use `/model plan` (or `/model --plan`) to set a dedicated model for plan mode — the model used when you activate `/plan` or `--plan`. Pass a model ID to set it, `off` to clear it (which reverts to the session model), or no argument to open the interactive model picker for plan mode:
+
+```
+/model plan                     # open model picker scoped to plan mode
+/model plan claude-opus-5       # use Claude Opus 5 specifically while planning
+/model --plan off               # clear plan-mode override; revert to session model
+```
+
+This is useful when you want a more thorough model for planning while using a faster model for implementation.
 
 These flags mirror the **Repo** and **Repo (local)** scope tabs available in the `/settings` dashboard (v1.0.71+), making it easier to manage per-repository vs. user-global configuration without ambiguity. In v1.0.71+, the `/settings` dashboard also shows **Repo** and **Repo (local)** tabs alongside the existing user-level view, giving you a unified place to see which settings are applied at each layer.
 
