@@ -3,7 +3,7 @@ title: 'Creating Effective Skills'
 description: 'Master the art of writing reusable, shareable skill folders that deliver consistent results across your team.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-26
 estimatedReadingTime: '9 minutes'
 tags:
   - skills
@@ -137,6 +137,12 @@ The `description` field is critical for agent discovery. Write it so that agents
 Include trigger keywords and contextual cues that help agents match the skill to user intent.
 
 ### Optional Fields
+
+**disable-model-invocation** *(v1.0.74+)*: When set to `true`, prevents the skill from triggering a new model invocation. The skill's instructions are injected into the current context without starting a new AI response. Useful for skills that only need to add reference material or templates to the conversation without triggering an immediate response.
+
+```yaml
+disable-model-invocation: true
+```
 
 **argument-hint** *(v1.0.64+)*: A short label that appears in the slash-command input placeholder to guide the user on what argument to provide. For example, a `generate-tests` skill might set:
 
