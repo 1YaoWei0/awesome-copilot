@@ -3,7 +3,7 @@ title: 'GitHub Copilot Terminology Glossary'
 description: 'A quick reference guide defining common GitHub Copilot and platform-specific terms.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-04-02
+lastUpdated: 2026-07-29
 estimatedReadingTime: '8 minutes'
 tags:
   - glossary
@@ -236,6 +236,8 @@ The autonomous GitHub Copilot agent that works on issues in a cloud environment 
 ### Plugin
 
 An installable package that extends GitHub Copilot CLI with a bundled set of agents, skills, hooks, MCP server configurations, and LSP integrations. Plugins provide a way to distribute and share custom capabilities across projects and teams, with versioning, discovery, and one-command installation via marketplaces.
+
+Plugins can follow the traditional `plugin.json` format or the **Open Plugin Spec v1** standard (v1.0.74+), which is a community-backed portable format that enables plugins to be discovered and used across multiple AI developer tools — not just GitHub Copilot CLI.
 
 **Example**: Installing `database-data-management@awesome-copilot` to get a database specialist agent, migration skills, and schema validation hooks in a single command.
 

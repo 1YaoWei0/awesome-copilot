@@ -3,7 +3,7 @@ title: 'Agents and Subagents'
 description: 'Learn how delegated subagents differ from primary agents, when to use them, and how to launch them in VS Code and Copilot CLI.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-01
+lastUpdated: 2026-07-29
 estimatedReadingTime: '9 minutes'
 tags:
   - agents
@@ -203,6 +203,18 @@ No. Most of the time the main agent launches them when it decides the task benef
 **Can a subagent use a different model or tool set?**
 
 Yes, when the delegated worker is a custom agent with its own frontmatter.
+
+**Can I use a different model specifically in plan mode?**
+
+Yes. Use `/model plan` (or `/model --plan`) to select a model that's used only while in plan mode — for example, a reasoning-focused model for planning, and a faster model for execution:
+
+```
+/model plan          # open the model picker for plan mode
+/model --plan o3     # set a specific model by ID for plan mode
+/model plan off      # clear the plan-mode override (reverts to the session model)
+```
+
+The plan-mode model reverts to the session model automatically when you leave plan mode, so you don't need to switch back manually. *(v1.0.74+)*
 
 **Are subagents always parallel?**
 
