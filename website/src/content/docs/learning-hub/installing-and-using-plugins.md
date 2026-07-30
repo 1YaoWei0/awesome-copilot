@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-30
 estimatedReadingTime: '8 minutes'
 tags:
   - plugins
@@ -34,6 +34,8 @@ A plugin bundles one or more of the following components:
 | **MCP Servers** | Model Context Protocol integrations for external tools | `.mcp.json` or `.github/mcp.json` |
 | **LSP Servers** | Language Server Protocol integrations | `lsp.json` or `.github/lsp.json` |
 | **Extensions** | IDE extensions installable via the plugin marketplace (v1.0.62+) | `extensions/` |
+
+> **Open Plugin Spec v1** *(v1.0.74+)*: Plugins can also be authored using the Open Plugin Spec v1 format, which includes `mcp.json` as the standard file for bundling MCP server configurations. Copilot CLI recognises both the original `plugin.json` format and Open Plugin Spec v1 manifests, so you can install plugins from third-party tools that follow this emerging open standard.
 
 A plugin might include all of these or just one — for example, a plugin could provide a single specialized agent, or an entire development toolkit with multiple agents, skills, hooks, and MCP server configurations working together.
 
@@ -231,6 +233,26 @@ copilot --plugin-dir /path/to/my-plugin
 ```
 
 Plugins loaded this way appear in `/plugin list` under a separate **External Plugins** section, clearly distinguished from marketplace-installed plugins. This is useful for testing local plugins in development or loading private plugins that aren't published to any marketplace.
+
+### Enabling and Disabling Plugin Components
+
+*(v1.0.76+)* The `/plugins` command includes enable/disable toggles for every installed component. This lets you temporarily silence a hook, hide an agent from the selection list, or turn off an MCP server without uninstalling the entire plugin:
+
+```
+/plugins
+```
+
+From the `/plugins` view you can toggle:
+
+| Component | Effect when disabled |
+|-----------|---------------------|
+| **Plugins** | All components from that plugin are suspended |
+| **Instructions** | Instruction files from the plugin are no longer injected |
+| **Agents** | Agent no longer appears in the selection picker |
+| **LSP servers** | Language server integration is stopped |
+| **Hooks** | Lifecycle hook no longer fires during sessions |
+
+Changes take effect immediately without restarting Copilot. Re-enabling a component restores it to full operation.
 
 ### Where Plugins Are Stored
 
