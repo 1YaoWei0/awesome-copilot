@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-07-31
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -223,7 +223,7 @@ The `~/.agents/skills/` path aligns with the VS Code GitHub Copilot for Azure ex
 
 | Field | Description | Example values |
 |-------|-------------|----------------|
-| `model` | The AI model to use for this repository | `"claude-sonnet-4"`, `"gpt-4.1"`, `"claude-sonnet-5"` |
+| `model` | The AI model to use for this repository | `"claude-sonnet-4"`, `"gpt-4.1"`, `"claude-sonnet-5"`, `"grok-4.5"` |
 | `effortLevel` | Reasoning effort level | `"low"`, `"medium"`, `"high"` |
 | `contextTier` | How much context to include | `"default"`, `"full"` |
 
@@ -428,7 +428,8 @@ CLI settings use **camelCase** naming. Key settings added in recent releases:
 | `continueOnAutoMode` | Automatically switch to the auto model on rate limit instead of pausing |
 | `proxy` | HTTP(S) proxy URL for all outbound CLI requests (e.g., `http://proxy.example.com:8080`) (v1.0.64+) |
 | `sessionLimits` | Restrict credit or turn usage for a session; limits apply across the current conversation and reset on `/clear` (v1.0.66+) |
-| `stayInAutopilot` | Keep the CLI in autopilot mode after an autopilot task completes, instead of returning to interactive mode (v1.0.69+) |
+| `stayInAutopilot` | Keep the CLI in autopilot mode after an autopilot task completes, instead of returning to interactive mode. Defaults to `true` as of v1.0.76 — set to `false` to return to interactive mode after each task. (v1.0.69+) |
+| `allowDevToolCaches` | Grant sandboxed builds access to toolchain caches, registries, and installs so builds work without extra setup. On by default; set to `false` to opt out. (v1.0.78+) |
 
 > **Note**: Older snake_case names (e.g., `include_gitignored`, `auto_updates_channel`) are still accepted for backward compatibility, but camelCase is now the preferred format.
 
@@ -665,6 +666,12 @@ The `/usage` command displays session metrics such as the number of tokens consu
 /usage
 ```
 
+The `/limits predict` command *(v1.0.76+)* analyzes your current session and suggests an appropriate AI-credit limit based on similar past sessions. This helps you set a `sessionLimits` value that is right-sized for the kind of work you do:
+
+```
+/limits predict
+```
+
 The `/compact` command summarizes the conversation history to free up context window space while preserving the thread of the conversation. Use it when your context is getting full but you do not want to start a fresh session:
 
 ```
@@ -717,6 +724,14 @@ Use `/autopilot` when you want to flip between supervised and unsupervised opera
 
 > **Read-only `gh` CLI commands (v1.0.46+)**: Read-only `gh` commands — such as `gh issue list`, `gh pr view`, `gh run status`, and other commands that don't write to GitHub — are **automatically approved** without a permission prompt. Only commands that write to GitHub (like creating issues, merging PRs) still require explicit approval. This reduces friction during exploratory sessions where you frequently check issue or PR status.
 
+The `/permissions` command *(v1.0.78+)* opens an interactive dialog to switch between approval modes — interactive, autopilot, and auto allow-all — without typing the full `/allow-all` or `/autopilot` commands:
+
+```
+/permissions
+```
+
+Use `/permissions` as a quick shortcut to review and change how the agent handles tool confirmations for the current session.
+
 The `--effort` flag (shorthand for `--reasoning-effort`) controls how much computational reasoning the model applies to a request:
 
 ```bash
@@ -760,6 +775,28 @@ copilot --no-sandbox -p "Set up development environment with system tools"
 ```
 
 These flags apply only to the current invocation — your persisted sandbox preference remains unchanged.
+
+The `copilot login` command *(v1.0.77+)* now defaults to a **browser-based (web) OAuth flow** on local interactive terminals, opening a browser window for authentication. On remote or headless terminals the device code flow remains the default. You can force a specific flow with flags:
+
+```bash
+copilot login --web-flow      # force browser-based OAuth (local terminals)
+copilot login --device-code   # force device code flow (headless/remote)
+```
+
+Or pick the flow interactively from the `/login` command inside a session.
+
+The **Sessions sidebar** *(v1.0.76+, experimental)* adds a split-view panel for managing multiple concurrent sessions. It lets you switch between sessions, spawn new ones, and see their status at a glance — all without leaving the current terminal window. Enable it with:
+
+```
+/experimental on
+```
+
+Once experimental mode is on, the sidebar appears automatically when you have multiple sessions open. Sidebar behavior can be tuned:
+
+| Setting | Description |
+|---------|-------------|
+| `sidebar.hoverFocus` | Focus a session on mouse hover (off by default — opt in) |
+| `sidebar.accentActiveSession` | Accent the active session card (on by default — opt out with `false`) |
 
 The `--attachment` flag (available in prompt mode, `-p`) lets you attach files — images or native documents — to the initial prompt in non-interactive mode:
 
