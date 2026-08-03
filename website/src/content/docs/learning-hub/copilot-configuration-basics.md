@@ -3,8 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
-estimatedReadingTime: '10 minutes'
+lastUpdated: 2026-08-03
 tags:
   - configuration
   - setup
@@ -430,6 +429,16 @@ CLI settings use **camelCase** naming. Key settings added in recent releases:
 | `sessionLimits` | Restrict credit or turn usage for a session; limits apply across the current conversation and reset on `/clear` (v1.0.66+) |
 | `stayInAutopilot` | Keep the CLI in autopilot mode after an autopilot task completes, instead of returning to interactive mode (v1.0.69+) |
 
+#### Managing Session AI Credit Limits with `/limits predict`
+
+*(v1.0.76+)* The `/limits predict` command analyzes your recent session history to suggest an appropriate AI-credit limit for your current session. Use it before starting a long-running task to set a budget that matches similar sessions you've run before:
+
+```
+/limits predict
+```
+
+This complements the `sessionLimits` configuration setting — use `/limits predict` to discover a sensible value, then configure `sessionLimits` to enforce it automatically in future sessions.
+
 > **Note**: Older snake_case names (e.g., `include_gitignored`, `auto_updates_channel`) are still accepted for backward compatibility, but camelCase is now the preferred format.
 
 In addition to the main config file, GitHub Copilot CLI reads two optional per-project files for repository-specific overrides:
@@ -626,6 +635,14 @@ The `/diagnose` command (v1.0.64+) analyzes the current session's logs and surfa
 Use `/diagnose` when a session is behaving unexpectedly — it inspects session logs and reports what it finds, making it easier to share diagnostics with support or understand what happened internally.
 
 **Keyboard shortcuts for queuing messages**: Use **Ctrl+Q** or **Ctrl+Enter** to queue a message (send it while the agent is still working). **Ctrl+D** no longer queues messages — it now has its default terminal behavior. If you have muscle memory for Ctrl+D queuing, switch to Ctrl+Q.
+
+**Sessions sidebar for concurrent session management** *(v1.0.76+, experimental)*: The Sessions sidebar gives you an at-a-glance view of all your concurrent CLI sessions — switch between them, spawn new ones, and see their status without leaving the terminal. Enable it with:
+
+```
+/experimental on
+```
+
+Once enabled, the sidebar appears as a split-view panel and lets you manage all your active sessions from a single interface, similar to managing browser tabs. This complements `/new` and `--resume` for power users running many parallel sessions.
 
 **Background running tasks**: Press **Ctrl+X → B** to move the current running task or shell command to the background. The task continues executing while you can type a new message or review earlier output. This is useful for long-running commands where you want to interact with the agent while waiting for the result.
 

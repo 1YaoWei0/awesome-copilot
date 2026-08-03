@@ -3,7 +3,7 @@ title: 'Using the Copilot Coding Agent'
 description: 'Learn how to use GitHub Copilot coding agent to autonomously work on issues, generate pull requests, and automate development tasks.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-05-13
+lastUpdated: 2026-08-03
 estimatedReadingTime: '12 minutes'
 tags:
   - coding-agent
@@ -421,6 +421,16 @@ It's less suited for:
 - All changes go through PR review before merging
 - Use hooks to enforce security scanning on every commit
 - Scope repository permissions appropriately
+
+#### Enterprise Managed Sandbox Policy
+
+Enterprise administrators can enforce a **restrictive sandbox floor** via macOS and Windows native MDM (Mobile Device Management) settings. Managed settings tighten — but never loosen — the user's sandbox policy:
+
+- The `/sandbox` dialog surfaces the organization-configured managed values with locked fields and managed filesystem paths
+- Users can see what their administrator has enforced but cannot relax those constraints
+- Administrators can confirm exactly what is enforced on each device
+
+This allows organizations to ensure that Copilot's sandbox always meets their security baseline, regardless of individual user configurations.
 
 ## Common Questions
 
