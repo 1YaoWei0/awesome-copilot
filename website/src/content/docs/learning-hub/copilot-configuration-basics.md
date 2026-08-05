@@ -3,7 +3,7 @@ title: 'Copilot Configuration Basics'
 description: 'Learn how to configure GitHub Copilot at user, workspace, and repository levels to optimize your AI-assisted development experience.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-08-05
 estimatedReadingTime: '10 minutes'
 tags:
   - configuration
@@ -760,6 +760,24 @@ copilot --no-sandbox -p "Set up development environment with system tools"
 ```
 
 These flags apply only to the current invocation — your persisted sandbox preference remains unchanged.
+
+### Sandbox Dev-Tool Access
+
+*(v1.0.78+, renamed in v1.0.79)* The `allowDevToolAccess` sandbox setting controls whether sandboxed builds can access toolchain caches, registries, and dev-tool configuration. It is **on by default**, meaning sandboxed shells can reach package caches (npm, pip, etc.) and standard tool installs without extra configuration.
+
+Set it to `false` in `settings.json` to opt out and enforce a fully restricted sandbox:
+
+```json
+{
+  "sandbox": {
+    "allowDevToolAccess": false
+  }
+}
+```
+
+> **Breaking change notice**: This setting was originally named `allowDevToolCaches` in v1.0.78. It was renamed to `allowDevToolAccess` in v1.0.79 because it grants access to dev-tool configuration and registries in addition to caches. The old key (`allowDevToolCaches`) is silently ignored — if you previously set it to `false` to opt out, you must rename the key to `allowDevToolAccess: false` in your `settings.json` or any MDM/managed-settings policy to preserve that behavior.
+
+
 
 The `--attachment` flag (available in prompt mode, `-p`) lets you attach files — images or native documents — to the initial prompt in non-interactive mode:
 

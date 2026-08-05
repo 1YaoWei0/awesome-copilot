@@ -3,7 +3,7 @@ title: 'Using the Copilot Coding Agent'
 description: 'Learn how to use GitHub Copilot coding agent to autonomously work on issues, generate pull requests, and automate development tasks.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-05-13
+lastUpdated: 2026-08-05
 estimatedReadingTime: '12 minutes'
 tags:
   - coding-agent
@@ -377,7 +377,45 @@ Since v1.0.47, `--resume` also surfaces **cloud agent sessions that haven't yet 
 
 > **Note**: Remote control replaces the earlier "steering" feature. If you see references to steering in older documentation, remote control is the updated equivalent.
 
-## Hooks and the Coding Agent
+## Working with Worktrees
+
+*(v1.0.78+)* The `/worktree new` command creates a new git worktree and starts a fresh conversation in it — without leaving your current session. This is ideal when you want to explore a different approach or start a parallel task on a separate branch while keeping your current work intact.
+
+```
+/worktree new    # create a new worktree and start a new conversation in it
+```
+
+This complements the parallel agent capabilities of the Copilot app, bringing similar isolated-branch workflows directly into the CLI. Each worktree gets its own branch and directory, so multiple tasks can proceed without conflicting with each other.
+
+> **Tip**: Use `/worktree new` when you're mid-task and realize a second, independent change needs to happen. Start it in a new worktree and return to your original session to keep both on track.
+
+## Approval Modes and Permissions
+
+*(v1.0.78+)* The `/permissions` command lets you switch between approval modes during an active session:
+
+```
+/permissions    # open the approval mode picker
+```
+
+Approval modes control how much autonomy the agent has to execute tool calls without asking for your confirmation:
+
+| Mode | Behavior |
+|------|----------|
+| **Default** | Prompts before actions that could have side effects (writing files, running commands) |
+| **Autopilot** | Allows all tool calls automatically — the agent works without interruption |
+| **Plan** | Agent proposes steps but does not execute them until you approve |
+
+You can also set the initial approval mode at startup:
+
+```bash
+copilot --mode agent    # default interactive mode
+copilot --autopilot     # start in autopilot (allow-all) mode
+copilot --plan          # start in plan mode (propose without executing)
+```
+
+Use `/permissions` within a running session if you want to tighten or loosen approval requirements mid-task — for example, switching to autopilot for a well-understood refactor, then returning to default mode when the agent moves to less familiar territory.
+
+
 
 Hooks are especially valuable with the coding agent because they provide deterministic guardrails for autonomous work:
 
