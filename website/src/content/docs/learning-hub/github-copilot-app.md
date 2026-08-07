@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-06-17
+lastUpdated: 2026-08-07
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -49,6 +49,23 @@ The central hub of the Copilot app is the **My Work** view. This dashboard shows
 - **Overall status**: A quick overview of what's in progress, what's done, and what's blocked
 
 Instead of checking GitHub, your CLI, and VS Code for updates, everything is in one place.
+
+### Sessions Tab
+
+The **Sessions tab** (added in CLI v1.0.79) lets you manage multiple concurrent sessions from a single sidebar. Instead of keeping track of separate terminal windows or CLI instances, the Sessions tab shows all of your active work in one place:
+
+- Switch between sessions without losing context
+- Monitor the status of background sessions
+- Open a new session in a new worktree with `/worktree new` directly from the CLI
+- Close or archive finished sessions
+
+From within any Copilot CLI session, you can start a fresh session in its own worktree:
+
+```
+/worktree new
+```
+
+This creates an isolated working copy of your branch, so the new session has its own environment without interfering with your current work.
 
 ### Automations
 
@@ -204,6 +221,16 @@ open "ghapp://session/new?repo=owner/repo&mode=plan"
 - Deep links are **repo-centric** and expect `owner/repo`.
 - There is no deep link that directly opens an arbitrary local folder.
 - For local folders, use the app's **Add local folder** flow; if the folder is already a Git repository with a `github.com` remote, resolve that remote to `owner/repo` and use `session/new`.
+
+### Opening the Copilot App from the CLI
+
+If you're working in a Copilot CLI session and want to view it in the desktop app, use the `/app` command:
+
+```
+/app
+```
+
+This opens the current CLI session in the GitHub Copilot desktop app (requires GitHub Copilot app 1.1.3 or later). Useful when you want to switch from a terminal workflow to the app's visual interface without losing context.
 
 ### Understanding Session Workflow
 

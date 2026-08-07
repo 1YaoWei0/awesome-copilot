@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-08-07
 estimatedReadingTime: '8 minutes'
 tags:
   - plugins
@@ -33,7 +33,7 @@ A plugin bundles one or more of the following components:
 | **Hooks** | Event handlers that intercept agent behavior | `hooks.json` or `hooks/` |
 | **MCP Servers** | Model Context Protocol integrations for external tools | `.mcp.json` or `.github/mcp.json` |
 | **LSP Servers** | Language Server Protocol integrations | `lsp.json` or `.github/lsp.json` |
-| **Extensions** | IDE extensions installable via the plugin marketplace (v1.0.62+) | `extensions/` |
+| **Extensions** | IDE extensions installable via the plugin marketplace (v1.0.62+) | `extensions/` or `com.github.copilot/extensions/` |
 
 A plugin might include all of these or just one — for example, a plugin could provide a single specialized agent, or an entire development toolkit with multiple agents, skills, hooks, and MCP server configurations working together.
 
@@ -221,6 +221,10 @@ copilot plugin marketplace update
 # Remove a plugin
 copilot plugin uninstall my-plugin
 ```
+
+### Automatic Updates for First-Party Plugins
+
+First-party plugins (those from official GitHub Copilot marketplaces) automatically update to the latest version at session start. You don't need to run `copilot plugin update` manually for these — they stay current automatically whenever you start a new session.
 
 ### Loading Plugins from a Local Directory
 
