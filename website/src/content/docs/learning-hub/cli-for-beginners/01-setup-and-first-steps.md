@@ -3,7 +3,7 @@ title: '01 · First Steps'
 description: 'Experience your first GitHub Copilot CLI demos and learn the three main interaction modes.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-06-19
+lastUpdated: 2026-08-07
 ---
 
 ![Chapter 01: First Steps](/images/learning-hub/copilot-cli-for-beginners/01/chapter-header.png)
@@ -389,13 +389,15 @@ That's it for getting started! As you become comfortable, you can explore additi
 
 | Command | What It Does |
 |---------|--------------|
-| `/init` | Initialize Copilot instructions for your repository |
 | `/agent` | Browse and select from available agents |
-| `/skills` | Manage skills for enhanced capabilities |
+| `/env` | Show loaded environment details — what instructions, MCP servers, skills, agents, and plugins are active |
+| `/init` | Initialize Copilot instructions for your repository |
 | `/mcp` | Manage MCP server configuration |
+| `/plugins` | Enable or disable plugins, instructions, agents, LSP servers, and hooks without restarting the session |
 | `/settings` | Open an interactive dialog to browse and edit all user settings in one place |
+| `/skills` | Manage skills for enhanced capabilities |
 
-> 💡 Skills are covered in detail in [Chapter 05](../05-skills/). MCP servers are covered in [Chapter 06](../06-mcp-servers/).
+> 💡 Agents are covered in [Chapter 04](../04-agents-and-custom-instructions/). Skills are covered in detail in [Chapter 05](../05-skills/). MCP servers are covered in [Chapter 06](../06-mcp-servers/).
 
 ### Models and Subagents
 
@@ -420,12 +422,14 @@ That's it for getting started! As you become comfortable, you can explore additi
 
 | Command | What It Does |
 |---------|--------------|
-| `/allow-all` | Auto-approve all permission prompts for this session |
 | `/add-dir <directory>` | Add a directory to allowed list |
-| `/list-dirs` | Show all allowed directories |
+| `/allow-all [on\|off\|show]` | Auto-approve all permission prompts; use `on` to enable, `off` to disable, `show` to check current status |
+| `/permissions` | Switch between approval modes (interactive, plan, autopilot) for controlling how much Copilot can do without asking |
+| `/yolo` | Quick alias for `/allow-all on` — auto-approves all permission prompts |
 | `/cwd`, `/cd [directory]` | View or change working directory |
+| `/list-dirs` | Show all allowed directories |
 
-> ⚠️ **Use with caution**: `/allow-all` skips confirmation prompts. Great for trusted projects, but be careful with untrusted code.
+> ⚠️ **Use with caution**: `/allow-all` and `/yolo` skip confirmation prompts. Great for trusted projects, but be careful with untrusted code.
 
 ### Session
 
