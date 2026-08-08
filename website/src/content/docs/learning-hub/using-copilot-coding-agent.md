@@ -3,7 +3,7 @@ title: 'Using the Copilot Coding Agent'
 description: 'Learn how to use GitHub Copilot coding agent to autonomously work on issues, generate pull requests, and automate development tasks.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-05-13
+lastUpdated: 2026-08-08
 estimatedReadingTime: '12 minutes'
 tags:
   - coding-agent
@@ -333,6 +333,42 @@ This repository provides a curated collection of agents, skills, and hooks desig
 4. The hooks will run automatically during coding agent sessions
 
 > **Example workflow**: Combine a `test-specialist` agent with a `database-migrations` skill and a linting hook. Assign an issue to the coding agent using the test-specialist agent — it will automatically pick up the migrations skill when relevant, and the hook ensures all code is formatted before completion.
+
+## Session Management Commands
+
+### Starting a New Worktree Session (Experimental)
+
+*(v1.0.78+, experimental)* The `/new-worktree` command creates a fresh git worktree and starts a brand-new conversation in it, without affecting your current session's uncommitted changes:
+
+```
+/new-worktree
+```
+
+This is useful when you want to start a parallel task in an isolated branch while keeping your current work in place. Each worktree gets its own conversation history and working directory.
+
+> **Tip**: Enable experimental features with `/experimental on` to access `/new-worktree`.
+
+### Undoing Agent Changes with /rewind
+
+*(v1.0.78+)* The `/rewind` command restores files that Copilot changed in the current turn without requiring git:
+
+```
+/rewind
+```
+
+You can choose to rewind just the conversation (keeping file changes) or rewind both the conversation and the files Copilot modified. The command only restores files whose current contents match what Copilot last wrote — if you've edited a file since the agent changed it, `/rewind` skips that file rather than overwriting your work.
+
+This is especially useful in coding agent sessions where you want to undo a specific turn's changes and try a different approach.
+
+### Controlling Approval Modes with /permissions
+
+*(v1.0.78+)* The `/permissions` command lets you switch between approval modes mid-session:
+
+```
+/permissions
+```
+
+This opens a dialog where you can change how the agent requests approval for tool calls — useful when you want to tighten or loosen oversight as a task progresses without restarting the session.
 
 ## Remote Control
 

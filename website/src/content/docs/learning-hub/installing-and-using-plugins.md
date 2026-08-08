@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-08-08
 estimatedReadingTime: '8 minutes'
 tags:
   - plugins
@@ -222,7 +222,44 @@ copilot plugin marketplace update
 copilot plugin uninstall my-plugin
 ```
 
-### Loading Plugins from a Local Directory
+### Automatic Updates for First-Party Plugins
+
+*(v1.0.78+)* First-party plugins (those from the `copilot-plugins` marketplace) automatically update to the latest version when you start a new Copilot CLI session. This ensures you always have the latest improvements and fixes without running `copilot plugin update` manually.
+
+For community and third-party plugins, you still need to run `copilot plugin update` to get new versions.
+
+### Enabling and Disabling Plugin Components
+
+*(v1.0.76+)* You can selectively enable or disable individual components from within the `/plugins` dialog — including individual plugins, instructions, agents, LSP servers, and hooks — without uninstalling them. This is useful when you want to temporarily turn off a hook or agent without losing its configuration.
+
+From an interactive session:
+
+```
+/plugins
+```
+
+Navigate to a plugin or component and toggle its enabled state. Disabled components are clearly marked in `copilot skill list` and `/plugins` output so you always know what's active.
+
+### Installing Skills Directly
+
+*(v1.0.72+)* You can install individual skills without installing a full plugin using the `--skill` flag:
+
+```bash
+# Install a skill from a local file or directory
+copilot plugins install --skill /path/to/my-skill
+
+# Install a skill into the current repository (project scope)
+copilot plugins install --skill /path/to/my-skill --scope project
+
+# Install a skill from a URL
+copilot plugins install --skill https://example.com/skills/my-skill.zip
+```
+
+Installed skills appear in `copilot skill list` and are automatically used by agents when relevant to the current task. Remove them with `copilot plugins remove --skill <skill-name>`.
+
+### Open Plugin Spec v1 Support
+
+*(v1.0.74+)* Copilot CLI now supports **Open Plugin Spec v1** plugin manifests and `mcp.json` configuration files. If you have a plugin built to the Open Plugin Spec (used by Claude Code and other tools), you can install it directly without any conversion. This enables sharing plugin packages across different AI assistant tools that support the spec.
 
 You can load plugins directly from a local directory without installing them from a marketplace, using the `--plugin-dir` flag when starting Copilot:
 

@@ -3,7 +3,7 @@ title: 'Automating with Hooks'
 description: 'Learn how to use hooks to automate lifecycle events like formatting, linting, and governance checks during Copilot agent sessions.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-07-13
+lastUpdated: 2026-08-08
 estimatedReadingTime: '8 minutes'
 tags:
   - hooks
@@ -88,13 +88,13 @@ Hooks can trigger on several lifecycle events:
 | Event | When It Fires | Common Use Cases |
 |-------|---------------|------------------|
 | `sessionStart` | Agent session begins or resumes | Initialize environments, log session starts, validate project state |
-| `sessionEnd` | Agent session completes or is terminated | Clean up temp files, generate reports, send notifications |
+| `sessionEnd` | Agent session completes or is terminated. **For piped runs (`-p`), fires once per completed agent turn** with `reason: complete` (or `reason: error` if the turn failed) instead of once at shutdown (v1.0.78+) | Clean up temp files, generate reports, send notifications |
 | `userPromptSubmitted` | User submits a prompt | Log requests for auditing and compliance; handle requests directly without invoking the LLM (v1.0.44+); inject `additionalContext` into the model prompt (v1.0.65+) |
 | `preToolUse` | Before the agent uses any tool (e.g., `bash`, `edit`) | **Approve or deny** tool executions, block dangerous commands, enforce security policies |
 | `postToolUse` | After a tool **successfully** completes execution | Log results, track usage, format code after edits |
 | `postToolUseFailure` | When a tool call **fails with an error** | Log errors for debugging, send failure alerts, track error patterns |
 | `PermissionRequest` | When the CLI shows a **permission prompt** to the user | Programmatically approve or deny permission requests, enable auto-approval in CI/headless environments |
-| `agentStop` | Main agent finishes responding to a prompt | Run final linters/formatters, validate complete changes |
+| `agentStop` | Main agent finishes responding to a prompt. **Receives a `stop_hook_active` flag when a forced continuation occurs** — use this to self-limit and avoid infinite loops (v1.0.72+) | Run final linters/formatters, validate complete changes |
 | `preCompact` | Before the agent compacts its context window | Save a snapshot, log compaction event, run summary scripts |
 | `subagentStart` | A subagent is spawned by the main agent | Inject additional context into the subagent's prompt, log subagent launches |
 | `subagentStop` | A subagent completes before returning results | Audit subagent outputs, log subagent activity |
@@ -369,7 +369,32 @@ Run ESLint after the agent finishes responding and block if there are errors:
 
 If the lint command exits with a non-zero status, the action is blocked.
 
-### Security Gating with preToolUse
+### Preventing Infinite Loops in agentStop Hooks (v1.0.72+)
+
+An `agentStop` hook that always returns a non-zero exit code would previously loop indefinitely — each block causes the agent to try again, which triggers the hook again. Starting with v1.0.72, the CLI ends the turn after **8 consecutive blocks** to prevent this.
+
+Your hook script receives a `stop_hook_active` flag in its JSON input when a forced continuation occurs. Use this to self-limit:
+
+```bash
+#!/usr/bin/env bash
+# scripts/final-lint.sh
+# Lint check with loop-guard for agentStop.
+
+INPUT=$(cat)
+IS_FORCED=$(echo "$INPUT" | jq -r '.stop_hook_active // false')
+
+# Avoid looping forever: if we're already in a forced continuation, let it through.
+if [ "$IS_FORCED" = "true" ]; then
+  echo '{"decision": "approve", "reason": "Skipping lint: stop_hook_active guard triggered."}'
+  exit 0
+fi
+
+npx eslint . --max-warnings 0
+```
+
+This pattern ensures your `agentStop` hook can enforce quality checks without accidentally trapping the agent in an unescapable block loop.
+
+
 
 Block dangerous commands before they execute. Use the `matcher` field to target only the `bash` tool, so the hook doesn't fire for file edits or other tools:
 
