@@ -3,7 +3,7 @@ title: 'Installing and Using Plugins'
 description: 'Learn how to find, install, and manage plugins that extend GitHub Copilot CLI with reusable agents, skills, hooks, and integrations.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-08-04
+lastUpdated: 2026-08-13
 relatedArticles:
   - ./building-custom-agents.md
   - ./creating-effective-skills.md
@@ -154,6 +154,24 @@ To automatically register an additional marketplace for everyone working in a re
 ```
 
 With this in place, team members automatically get the `my-org-plugins` marketplace available without running a separate `marketplace add` command. This replaces the older `marketplaces` setting, which was removed in v1.0.16.
+
+### Auto-updating a Custom Marketplace
+
+*(v1.0.79+)* By default, plugins installed from an `extraKnownMarketplaces` entry follow the same manual-update behavior as other community plugins — you run `copilot plugin update` to pull in new versions. To have a custom marketplace's plugins update automatically at the start of every session (the same behavior first-party plugins get), set `"autoUpdate": true` on its entry:
+
+```json
+{
+  "extraKnownMarketplaces": [
+    {
+      "name": "my-org-plugins",
+      "source": "my-org/internal-plugins",
+      "autoUpdate": true
+    }
+  ]
+}
+```
+
+This is useful for internal marketplaces where you want every team member to always be on the latest approved plugin set without a manual update step.
 
 ### Pinning a Marketplace to a Specific Commit
 

@@ -3,7 +3,7 @@ title: 'Getting Started with the GitHub Copilot app'
 description: 'Learn about the GitHub Copilot app, a desktop experience built for agent-native development. Understand its key features and who it''s for.'
 authors:
   - GitHub Copilot Learning Hub Team
-lastUpdated: 2026-08-07
+lastUpdated: 2026-08-13
 estimatedReadingTime: '8 minutes'
 tags:
   - copilot-app
@@ -98,6 +98,10 @@ Agent Merge also understands **stacked pull requests**: it shows a stack summary
 ### Requesting Code Reviews
 
 From the app, you can request a Copilot code review on a pull request—and re-request a review even from reviewers who already responded—without leaving the session. This keeps the review loop inside the same workspace where the change was made.
+
+### Jumping from the CLI
+
+If you start a session in GitHub Copilot CLI and want to continue it in the desktop app's richer interface, run `/app` from your CLI session (v1.0.79+, requires Copilot app 1.1.3 or later). It opens the current session directly in the Copilot app instead of landing on the app's Home screen with the wrong folder selected—useful when you started working in a terminal but want the multi-session view, canvases, or Agent Merge for the rest of the task.
 
 ## Who is the Copilot app for?
 
